@@ -1,0 +1,6 @@
+<h3><a href="{{ path('post_list') }}">Список постов</a> &mdash; Создать пост</h3>
+
+<form action="{{ path('post_frm') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" value="Создать" />
+</form>
