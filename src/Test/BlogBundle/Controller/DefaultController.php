@@ -6,14 +6,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sorien\DataGridBundle\Grid\Source\Entity;
+
 class DefaultController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
+     * @Route("/")
      * @Template()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return array('name' => $name);
+        $source = new Entity('TestBlogBundle:Post');
+
+        $grid = $this->get('grid');
+        $grid->setSource($source);
+
+        if ($grid->isReadyForRedirect()) {
+            return new RedirectResponse($grid->getRouteUrl());
+        } else {
+            return array('data' => $grid);
+        }
     }
 }
